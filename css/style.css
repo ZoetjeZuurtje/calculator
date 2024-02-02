@@ -1,0 +1,41 @@
+:root {
+    --base-color: grey;
+    --display-color: olive;
+    --button-color: rgb(240, 178, 106);
+}
+
+main {
+    width: 300px;
+    background-color: var(--base-color);
+}
+
+.display, button {
+    font-family: monospace;
+    font-size: 20px;
+}
+
+.display {
+    color: white;
+    text-align: right;
+
+    background-color: var(--display-color);
+    height: fit-content;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+button {
+    background: none;
+    border: 1px solid black;
+    width: 75px;
+    height: 75px;
+}
+
+.operation {
+    background-color: var(--button-color);
+}
