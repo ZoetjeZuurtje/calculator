@@ -1,6 +1,6 @@
-let firstNum = '';
+let firstNum  = '';
 let secondNum = '';
-let operator = '';
+let operator  = null;
 let displayElement = document.querySelector('.display');
 
 function operate(a, b, operator) {
@@ -18,38 +18,46 @@ function operate(a, b, operator) {
 	}
 }
 
-function updateDisplay() {
-	displayElement.textContent = `${firstNum} ${operator} ${secondNum}`;
+function updateDisplay(displayContent) {
+	displayElement.textContent = displayContent;
 }
 
-function clearDisplay() {
-	displayElement.textContent = '';
+function clear() {
+	firstNum  = '';
+	secondNum = '';
+	operator  = null;
+	updateDisplay('');
 }
 
 function calculate() {
-	let a = parseInt(firstNum);
-	let b = parseInt(secondNum);
-	let result = operate(a, b, operator);
-	firstNum = result;
+	if (operator === null || secondNum === '') return;
+
+	firstNum = operate(+firstNum, +secondNum, operator);
 	secondNum = '';
-	operator = '';
-	updateDisplay();
+	operator = null;
+	
+	updateDisplay(firstNum);
 }
 
 function setOperator(event) {
-	operator = event.target.dataset.operation;
-	updateDisplay();
+	const operation = event.target.dataset.operation;
+	if (operator !== null && secondNum !== '') {
+		calculate()
+	}
+	operator = operation;
 }
 
 function addNumber(event) {
-	let num = event.target.textContent;
+	const num = event.target.textContent;
 
-	if (operator == '' || firstNum == '') {
+	if (operator === null || firstNum == '') {
 		firstNum += num;
-	} else {
-		secondNum += num;
+		updateDisplay(firstNum);
+		return;
 	}
-	updateDisplay();
+	
+	secondNum += num;
+	updateDisplay(secondNum);
 }
 
 document.querySelector('#multiply').addEventListener('click', setOperator);
@@ -57,7 +65,7 @@ document.querySelector('#divide').addEventListener('click', setOperator);
 document.querySelector('#add').addEventListener('click', setOperator);
 document.querySelector('#subtract').addEventListener('click', setOperator);
 document.querySelector('#exponent').addEventListener('click', setOperator);
-document.querySelector('#clear').addEventListener('click', clearDisplay);
+document.querySelector('#clear').addEventListener('click', clear);
 document.querySelector('#calculate').addEventListener('click', calculate);
 const numberButtons = document.querySelectorAll('.number');
 
