@@ -5,21 +5,28 @@ let displayElement = document.querySelector('.display');
 
 function operate(a, b, operator) {
 	switch (operator) {
-		case '+':
+		case 'plus':
 			return a + b;
-		case '-':
+		case 'minus':
 			return a - b;
-		case '*':
+		case 'mult':
 			return a * b;
-		case '/':
+		case 'divide':
 			return a / b;
-		default:
+		case 'exp':
 			return a ** b;
+		default:
+			console.log('No operator given!');
+			return 0;
 	}
 }
 
 function updateDisplay(displayContent) {
 	displayElement.textContent = displayContent;
+	operationButtons.forEach(btn => btn.classList.remove('selected'));
+	let selectedButton = document.querySelector(`button[data-operation='${operator}'`);
+	if (!selectedButton) return;
+	selectedButton.classList.add('selected');
 }
 
 function clear() {
@@ -45,6 +52,7 @@ function setOperator(event) {
 		calculate()
 	}
 	operator = operation;
+	updateDisplay(firstNum);
 }
 
 function addNumber(event) {
@@ -60,11 +68,8 @@ function addNumber(event) {
 	updateDisplay(secondNum);
 }
 
-document.querySelector('#multiply').addEventListener('click', setOperator);
-document.querySelector('#divide').addEventListener('click', setOperator);
-document.querySelector('#add').addEventListener('click', setOperator);
-document.querySelector('#subtract').addEventListener('click', setOperator);
-document.querySelector('#exponent').addEventListener('click', setOperator);
+const operationButtons = document.querySelectorAll('.operation');
+operationButtons.forEach(btn => btn.addEventListener('click', setOperator));
 document.querySelector('#clear').addEventListener('click', clear);
 document.querySelector('#calculate').addEventListener('click', calculate);
 const numberButtons = document.querySelectorAll('.number');

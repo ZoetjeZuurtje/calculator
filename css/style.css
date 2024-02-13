@@ -1,17 +1,18 @@
 :root {
     --base-color: grey;
     --display-color: olive;
-    --button-color: rgb(240, 178, 106);
+    --button-color: hsl(32, 82%, 65%);
 }
 
 main {
     width: 300px;
+    border: 4px outset black;
     background-color: var(--base-color);
 }
 
 .display, button {
     font-family: monospace;
-    font-size: 20px;
+    font-size: 40px;
 }
 
 .display {
@@ -19,10 +20,12 @@ main {
     text-align: right;
 
     background-color: var(--display-color);
+    border-radius: 10px;
+    border: 5px inset black;
+    margin: 20px;
     height: 30px;
     line-height: 30px;
-    padding: 20px;
-    margin-top: 20px;
+    padding: 10px;
 }
 
 .button-container {
@@ -31,13 +34,20 @@ main {
 }
 
 button {
+    font-size: 18px;
     background: none;
-    border: 1px solid black;
-    width: 75px;
-    height: 75px;
+    border: 4px outset black;
+    margin: 3px;
+    width: 68px;
+    height: 68px;
+    border-radius: 5px;
     flex-grow: 1;
 }
 
-.operation {
+.operation, .special-btn {
     background-color: var(--button-color);
+}
+
+.selected {
+    background-color: hsl(32, 82%, 75%)
 }
