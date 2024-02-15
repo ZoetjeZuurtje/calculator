@@ -22,9 +22,12 @@ function operate(a, b, operator) {
 }
 
 function updateDisplay(displayContent) {
-	const MAX_DECIMALS = 8;
-	// Round to a maximum of 8 decimal places
-	displayElement.textContent = Math.round(displayContent * Math.pow(10, MAX_DECIMALS)) / Math.pow(10, MAX_DECIMALS);
+	if (typeof displayContent == 'string') {
+		displayElement.textContent = displayContent;
+	} else {
+		const MAX_DECIMALS = 8;
+		displayElement.textContent = Math.round(displayContent * Math.pow(10, MAX_DECIMALS)) / Math.pow(10, MAX_DECIMALS);
+	}
 
 	// Highlight the selected operator button, and no others
 	operationButtons.forEach(btn => btn.classList.remove('selected'));
@@ -42,6 +45,11 @@ function clear() {
 
 function calculate() {
 	if (operator === null || secondNum === '') return;
+	if (secondNum == 0 && operator == 'divide') {
+		clear();
+		updateDisplay('Err 418 🍵');
+		return;
+	}
 
 	firstNum = operate(+firstNum, +secondNum, operator);
 	secondNum = '';
