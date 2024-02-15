@@ -21,13 +21,17 @@ function operate(a, b, operator) {
 	}
 }
 
-function updateDisplay(displayContent) {
-	if (typeof displayContent == 'string') {
-		displayElement.textContent = displayContent;
-	} else {
-		const MAX_DECIMALS = 8;
-		displayElement.textContent = Math.round(displayContent * Math.pow(10, MAX_DECIMALS)) / Math.pow(10, MAX_DECIMALS);
+function updateDisplay(content) {
+	if (typeof content != 'string') {
+		const DISPLAY_SIZE = 10;
+		content = content.toString();
+
+		if (content.length > DISPLAY_SIZE) {
+			content = content.slice(0, DISPLAY_SIZE);
+		}
+	
 	}
+	displayElement.textContent = content;
 
 	// Highlight the selected operator button, and no others
 	operationButtons.forEach(btn => btn.classList.remove('selected'));
