@@ -58,8 +58,8 @@ function calculate() {
 	updateDisplay(firstNum);
 }
 
-function setOperator(event) {
-	const operation = event.target.dataset.operation;
+function setOperator(operation) {
+	
 	if (operator !== null && secondNum !== '') {
 		calculate()
 	}
@@ -67,23 +67,44 @@ function setOperator(event) {
 	updateDisplay(firstNum);
 }
 
-function addNumber(event) {
-	const num = event.target.textContent;
+function addNumber(string, char) {
+	if (char == '.' && string.includes('.')) return string;
 
+	if (char == 'Backspace') {
+		string = string.slice(0, -1);
+	} else {
+		string += char;
+	}
+
+	updateDisplay(string);
+	return string;
+}
+
+function addNumberHandler(char) {
+	
 	if (operator === null || firstNum == '') {
-		firstNum += num;
-		updateDisplay(firstNum);
+		firstNum = addNumber(firstNum, char);
 		return;
 	}
+	secondNum = addNumber(secondNum, char);
+}
+
+function handleKeyDown(event) {
+	event.preventDefault();
+	const key = event.key;
 	
-	secondNum += num;
-	updateDisplay(secondNum);
+	if (key.match(/[\d.]/) || key == 'Backspace') {
+		addNumberHandler(key);
+	} else if (key.match(/[*+-/^]/)) {
+		setOperator(key);
+	}
 }
 
 const operationButtons = document.querySelectorAll('.operation');
-operationButtons.forEach(btn => btn.addEventListener('click', setOperator));
+operationButtons.forEach(btn => btn.addEventListener('click', event => setOperator(event.target.dataset.operation)));
 document.querySelector('#clear').addEventListener('click', clear);
 document.querySelector('#calculate').addEventListener('click', calculate);
 const numberButtons = document.querySelectorAll('.number');
 
-numberButtons.forEach(button => button.addEventListener('click', addNumber));
+numberButtons.forEach(button => button.addEventListener('click', event => addNumberHandler(event.target.textContent)));
+document.documentElement.addEventListener('keydown', handleKeyDown);
