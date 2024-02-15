@@ -5,19 +5,19 @@ let displayElement = document.querySelector('.display');
 
 function operate(a, b, operator) {
 	switch (operator) {
-		case 'plus':
+		case '+':
 			return a + b;
-		case 'minus':
+		case '-':
 			return a - b;
-		case 'mult':
+		case '*':
 			return a * b;
-		case 'divide':
+		case '/':
 			return a / b;
-		case 'exp':
+		case '^':
 			return a ** b;
 		default:
-			console.log('No operator given!');
-			return 0;
+			console.error('Error: Invalid operator!');
+			return '';
 	}
 }
 
@@ -45,7 +45,7 @@ function clear() {
 
 function calculate() {
 	if (operator === null || secondNum === '') return;
-	if (secondNum == 0 && operator == 'divide') {
+	if (secondNum == 0 && operator == '/') {
 		clear();
 		updateDisplay('Err 418 🍵');
 		return;
@@ -89,14 +89,33 @@ function addNumberHandler(char) {
 	secondNum = addNumber(secondNum, char);
 }
 
+function handleSpecialInputs(input) {
+	
+	switch (input) {
+		case 'Enter':
+		case '=':
+			calculate();
+			break;
+		case 'Backspace':
+			addNumberHandler(input);
+			break;
+	
+		default:
+			console.error('Error: Invalid keyboard input');
+			break;
+	}
+}
+
 function handleKeyDown(event) {
 	event.preventDefault();
 	const key = event.key;
 	
-	if (key.match(/[\d.]/) || key == 'Backspace') {
+	if (key.match(/[0-9.]/)) {
 		addNumberHandler(key);
 	} else if (key.match(/[*+-/^]/)) {
 		setOperator(key);
+	} else if (key.match(/(Backspace|Enter|[=])/)) {
+		handleSpecialInputs(key);
 	}
 }
 
