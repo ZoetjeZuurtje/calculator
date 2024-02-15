@@ -22,7 +22,11 @@ function operate(a, b, operator) {
 }
 
 function updateDisplay(displayContent) {
-	displayElement.textContent = displayContent;
+	const MAX_DECIMALS = 8;
+	// Round to a maximum of 8 decimal places
+	displayElement.textContent = Math.round(displayContent * Math.pow(10, MAX_DECIMALS)) / Math.pow(10, MAX_DECIMALS);
+
+	// Highlight the selected operator button, and no others
 	operationButtons.forEach(btn => btn.classList.remove('selected'));
 	let selectedButton = document.querySelector(`button[data-operation='${operator}'`);
 	if (!selectedButton) return;
