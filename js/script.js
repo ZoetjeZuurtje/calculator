@@ -15,6 +15,8 @@ function operate(a, b, operator) {
 			return a / b;
 		case '^':
 			return a ** b;
+		case 'r':
+			return Math.pow(b, 1/a);
 		default:
 			console.error('Error: Invalid operator: ', operator);
 			return '';
@@ -118,7 +120,7 @@ function handleKeyDown(event) {
 	
 	if (key.match(/[0-9.]/)) {
 		addNumberHandler(key);
-	} else if (key.match(/[*+-/^]/)) {
+	} else if (key.match(/r|[*+-/^]/)) {
 		setOperator(key);
 	} else if (key.match(/(Backspace|Enter|Escape|[=])/)) {
 		handleSpecialInputs(key);
