@@ -16,7 +16,7 @@ function operate(a, b, operator) {
 		case '^':
 			return a ** b;
 		default:
-			console.error('Error: Invalid operator!');
+			console.error('Error: Invalid operator: ', operator);
 			return '';
 	}
 }
@@ -55,7 +55,7 @@ function calculate() {
 		return;
 	}
 
-	firstNum = operate(+firstNum, +secondNum, operator);
+	firstNum = operate(+firstNum, +secondNum, operator).toString();
 	secondNum = '';
 	operator = null;
 	
@@ -103,9 +103,11 @@ function handleSpecialInputs(input) {
 		case 'Backspace':
 			addNumberHandler(input);
 			break;
-	
+		case 'Escape':
+			clear();
+			break;
 		default:
-			console.error('Error: Invalid keyboard input');
+			console.error('Error: Invalid keyboard input: ', input);
 			break;
 	}
 }
@@ -118,16 +120,17 @@ function handleKeyDown(event) {
 		addNumberHandler(key);
 	} else if (key.match(/[*+-/^]/)) {
 		setOperator(key);
-	} else if (key.match(/(Backspace|Enter|[=])/)) {
+	} else if (key.match(/(Backspace|Enter|Escape|[=])/)) {
 		handleSpecialInputs(key);
 	}
 }
 
-const operationButtons = document.querySelectorAll('.operation');
-operationButtons.forEach(btn => btn.addEventListener('click', event => setOperator(event.target.dataset.operation)));
-document.querySelector('#clear').addEventListener('click', clear);
-document.querySelector('#calculate').addEventListener('click', calculate);
 const numberButtons = document.querySelectorAll('.number');
+const operationButtons = document.querySelectorAll('.operation');
+const specialButtons = document.querySelectorAll('.special-btn');
 
-numberButtons.forEach(button => button.addEventListener('click', event => addNumberHandler(event.target.textContent)));
+numberButtons.forEach(	 button => button.addEventListener('click', event => addNumberHandler(event.target.textContent)));
+operationButtons.forEach(button => button.addEventListener('click', event => setOperator(event.target.dataset.operation)));
+specialButtons.forEach(	 button => button.addEventListener('click', event => handleSpecialInputs(event.target.dataset.shortcut)));
+
 document.documentElement.addEventListener('keydown', handleKeyDown);

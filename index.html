@@ -11,7 +11,7 @@
 		<main>
 			<div class="display"></div>
             <div class="button-container">
-                <button id="clear" class="special-btn">Clear</button>
+                <button id="clear" class="special-btn" data-shortcut="Escape">Clear</button>
                 <button id="exponent" class="operation" data-operation="^">x<sup>y</sup></button>
                 <button id="multiply" class="operation" data-operation="*">*</button>
                 <button id="divide" class="operation" data-operation="/">/</button>
@@ -27,7 +27,9 @@
                 <button class="number">7</button>
                 <button class="number">8</button>
                 <button class="number">9</button>
-                <button id="calculate" class="special-btn">Calculate</button>
+                <button id="calculate" class="special-btn" data-shortcut="=">=</button>
+                <button id="calculate" class="special-btn" data-shortcut="Backspace"><=</button>
+                <button id="calculate" class="number">.</button>
             </div>
 		</main>
 	</body>
